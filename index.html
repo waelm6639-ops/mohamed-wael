@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>♻️ مصنّف المخلفات الذكي</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.6/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="header">
+    <h1>♻️ مصنّف المخلفات الذكي</h1>
+    <p>AI للتصنيف التلقائي: زجاج | بلاستيك | ورق</p>
+  </header>
+
+  <!-- شاشة إعداد الكاميرا -->
+  <div class="card setup-card" id="setupCard">
+    <h2>📡 إعداد الكاميرا</h2>
+
+    <div class="form-group">
+      <label>📍 IP الكاميرا (ESP32-CAM):</label>
+      <input type="text" id="cameraIP" placeholder="192.168.1.100" value="192.168.1.100">
+    </div>
+
+    <div class="info-box">
+      ⚠️ <strong>مهم:</strong> تأكد إن جهازك على نفس شبكة WiFi اللي الكاميرا متصلة بيها.
+    </div>
+
+    <button class="btn-primary" onclick="connectCamera()">
+      🔌 الاتصال بالكاميرا
+    </button>
+
+    <div id="connectionStatus" class="status"></div>
+  </div>
+
+  <!-- شاشة الكاميرا -->
+  <div class="card camera-card hidden" id="cameraCard">
+    <h2>📹 البث المباشر</h2>
+
+    <div class="video-container">
+      <img id="cameraStream" src="" alt="Camera Stream" crossorigin="anonymous">
+      <div class="overlay">
+        <div class="scan-line"></div>
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+      </div>
+    </div>
+
+    <button class="btn-capture" onclick="captureAndClassify()">
+      📸 التقاط وتصنيف
+    </button>
+
+    <button class="btn-secondary" onclick="disconnectCamera()">
+      🔌 قطع الاتصال
+    </button>
+  </div>
+
+  <!-- شاشة النتيجة -->
+  <div class="card result-card hidden" id="resultCard">
+    <div class="result-icon" id="resultIcon">🎯</div>
+    <h2 id="resultTitle">جاري التصنيف...</h2>
+    <p id="resultDesc"></p>
+
+    <div class="confidence-bar">
+      <div class="confidence-fill" id="confidenceFill"></div>
+    </div>
+    <p class="confidence-text" id="confidenceText"></p>
+
+    <div class="predictions" id="predictionsList"></div>
+  </div>
+
+  <!-- دليل الألوان -->
+  <div class="card legend-card">
+    <h2>🎨 دليل الألوان</h2>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="color-dot red"></span>
+        <span>🔴 زجاج (Glass) — لمبة حمراء</span>
+      </div>
+      <div class="legend-item">
+        <span class="color-dot yellow"></span>
+        <span>🟡 بلاستيك (Plastic) — لمبة صفراء</span>
+      </div>
+      <div class="legend-item">
+        <span class="color-dot green"></span>
+        <span>🟢 ورق (Paper) — لمبة خضراء</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
